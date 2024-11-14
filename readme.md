@@ -50,3 +50,11 @@ La puntuación de esta práctica nunca superará los 1.5 puntos. Los 0.5 puntos 
 Entrega:
 
 Fecha máxima = 13/12/2024
+
+
+_________en los metoeritas pones un calendar en htm lso metoeritos, la priemra va al endpoint 
+
+es potencialmente peligroso? 
+la cantidad de asteroides
+en un div cuantos orvitan , un count y cuales estan a true de los peligrosos
+en otro div por cada asteroide que es peligroso y en rojo, diametro en kilometros distancia lunar y velocidad

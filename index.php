@@ -96,6 +96,11 @@ try {
                             // Preparar la consulta
                             $sql = "INSERT INTO users (username, password, token) VALUES (:new_username, :new_password, :new_token)";
                             $stmt = $conn->prepare($sql);
+                            //https://diego.com.es/tutorial-de-pdo
+                           // https://www.w3schools.com/php/php_mysql_prepared_statements.asp ,ejor el perpared
+                           // ver la recofiga de datos como array http://phpdeilusions.net/
+                           //password_hash() https://www.php.net/manual/en/function.password-hash.php
+                           //password_verify()
                     
                             // Asignar valores con seguridad para evitar inyección SQL
                             $stmt->bindParam(':new_username', $_POST["new_username"]);
