@@ -5,25 +5,7 @@ $db_password = "root";
 $db_name="nasa";
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
 
-  <form method="POST" action="index.php">
-          <label>tu nombre</label>
-          <input type="text" id="usern" name="username" required/>
-          <label>tu contraseña</label>
-          <input type="password" id="password" name="password" required/>
-          <input type="submit" value="Entrar"/>
-  </form>
-
-</body>
-</html>
 
 <?php
 

@@ -1,6 +1,6 @@
 <?php
- require autentication.php;
-//  header(Prepared:)
+ require "autentication.php";
+ // forulario de acceso sin mas, y boton para conectarse
 ?>
 
 <!DOCTYPE html>
@@ -15,13 +15,18 @@
 
 </head>
 <body>
-
+    <h1>Esto es el login</h1>
+    <form method="POST" action="index.php">
+            <label>tu nombre</label>
+            <input type="text" id="usern" name="username" required/>
+            <label>tu contraseña</label>
+            <input type="password" id="password" name="password" required/>
+            <input type="submit" value="Entrar"/>
+    </form>
 
 <?php 
                     
-                    if ($_POST["new_password1"] !== $_POST["new_password2"]) {
-                        echo "las contraseñas no coinciden";
-                    }else {
+                   
                     
                         // try {
                         //     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -36,35 +41,37 @@
                         //     echo $sql . "<br>" . $e->getMessage();
                         // }
 
-                        try {
+                        //try {
                             // Conectar a la base de datos
-                            $conn = new PDO("mysql:host=$servername;dbname=$db_name", $db_username, $db_password);
-                            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                            // $conn = new PDO("mysql:host=$servername;dbname=$db_name", $db_username, $db_password);
+                            // $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     
-                            // Preparar la consulta
-                            $sql = "INSERT INTO users (username, password, token) VALUES (:new_username, :new_password, :new_token)";
-                            $stmt = $conn->prepare($sql);
+                            // // Preparar la consulta
+                            // $sql = "INSERT INTO users (username, password, token) VALUES (:new_username, :new_password, :new_token)";
+                            // $stmt = $conn->prepare($sql);
                             //https://diego.com.es/tutorial-de-pdo
                            // https://www.w3schools.com/php/php_mysql_prepared_statements.asp ,ejor el perpared
                            // ver la recofiga de datos como array http://phpdeilusions.net/
                            //password_hash() https://www.php.net/manual/en/function.password-hash.php
                            //password_verify()
                     
-                            // Asignar valores con seguridad para evitar inyección SQL
-                            $stmt->bindParam(':new_username', $_POST["new_username"]);
-                            $stmt->bindParam(':new_password', $_POST["new_password1"]);
-                            $stmt->bindParam(':new_token', $_POST["new_token"]);
-                            var_dump($stmt);
-                            // Ejecutar la consulta
-                            $stmt->execute();
-                          
-                            echo "Nuevo registro creado con éxito";
-                        } catch (PDOException $e) {
-                            echo "Error: " . $e->getMessage();
-                        }
 
-                        $conn = null;
-                    };
+                           // lo hacemos con la web d eprepared de w3school con el lazy ?git
+                            // Asignar valores con seguridad para evitar inyección SQL
+                        //     $stmt->bindParam(':new_username', $_POST["new_username"]);
+                        //     $stmt->bindParam(':new_password', $_POST["new_password1"]);
+                        //     $stmt->bindParam(':new_token', $_POST["new_token"]);
+                        //     var_dump($stmt);
+                        //     // Ejecutar la consulta
+                        //     $stmt->execute();
+                          
+                        //     echo "Nuevo registro creado con éxito";
+                        // } catch (PDOException $e) {
+                        //     echo "Error: " . $e->getMessage();
+                        // }
+
+                        //$conn = null;
+                    // };
              ?> 
 
     </form>
