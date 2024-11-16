@@ -1,6 +1,8 @@
 <?php
  require "autentication.php";
  // forulario de acceso sin mas, y boton para conectarse
+
+//  if(isset());
 ?>
 
 <!DOCTYPE html>

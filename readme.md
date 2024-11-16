@@ -6,6 +6,8 @@ https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=DEMO_KEY
 creo que es este 
 https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-09-07&end_date=2015-09-08&api_key=DEMO_KEY
 
+GET https://api.nasa.gov/neo/rest/v1/feed?start_date=START_DATE&end_date=END_DATE&api_key=API_KEY
+
 
 Trabajas en el departamento de desarrollo de software para la NASA.
 Unos investigadores internos necesitan una página web para realizar ciertas tareas de manera más sencilla y se te ha encomendado esta tarea a ti.
@@ -52,9 +54,28 @@ Entrega:
 Fecha máxima = 13/12/2024
 
 
-_________en los metoeritas pones un calendar en htm lso metoeritos, la priemra va al endpoint 
+_________
+en los metoeritas pones un calendar en htm lso metoeritos, la priemra va al endpoint 
 
 es potencialmente peligroso? 
 la cantidad de asteroides
 en un div cuantos orvitan , un count y cuales estan a true de los peligrosos
 en otro div por cada asteroide que es peligroso y en rojo, diametro en kilometros distancia lunar y velocidad
+__________
+ver cuantas peticiones tengo. Tengo que investigar las cabeceras que nos trae la peticon. El json viene en el body
+How Do I See My Current Usage?
+Your can check your current rate limit and usage details by inspecting the X-RateLimit-Limit and X-RateLimit-Remaining HTTP headers that are returned on every API response. For example, if an API has the default hourly limit of 1,000 request, after making 2 requests, you will receive this HTTP header in the response of the second request:
+
+X-RateLimit-Remaining: 998
+
+The hourly counters for your API key reset on a rolling basis.
+
+Example: If you made 500 requests at 10:15AM and 500 requests at 10:25AM, your API key would become temporarily blocked. This temporary block of your API key would cease at 11:15AM, at which point you could make 500 requests. At 11:25AM, you could then make another 500 requests.
+
+Anyone can register for an api.nasa.gov key, which can be used to access data across federal agencies.
+
+Aqui lo explica
+https://programadorphp.es/docs/php_manual_espanol/function.get-headers.html
+
+Ademas se ve en el live share en headers.
+
