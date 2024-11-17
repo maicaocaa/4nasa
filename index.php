@@ -26,12 +26,13 @@ $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$dat
     $remaining=$header["X-Ratelimit-Remaining"];
 
 // ------------ IMAGEN DEL DIA -------------------------------
-        // $response=file_get_contents("$picture_url");
-        // $data=json_decode($response);
+        $response=file_get_contents("$picture_url");
+        $data=json_decode($response);
 
-        // $title=$data->title;
-        // $APOD_url=$data->url;
-        // $explanation=$data->explanation;
+        $title=$data->title;
+        $APOD_url=$data->url;
+        $explanation=$data->explanation;
+        //$copyright no todas tienen
       
         // var_dump($data);
         
@@ -42,16 +43,12 @@ $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$dat
     $astro_response=file_get_contents($astro_url);
     $astro_data=json_decode($astro_response,true);
     // var_dump($astro_data);
-    $astro_dangerous=0;
     $astro_near_earth_objects=$astro_data["near_earth_objects"];
    // var_dump($astro_near_earth_objects);
    echo "esto es la fecha $date";
-    echo "asteroides totales cerca: ".$astro_near_total=count($astro_near_earth_objects[$date]);
-    foreach($astro_near_earth_objects[$date] as $asteroid){
-        if ($asteroid["is_potentially_hazardous_asteroid"]) {
-            $astro_dangerous++;
-        };
-    };
+   echo "asteroides totales cerca: ".$astro_near_total=count($astro_near_earth_objects[$date]);
+   
+
 
 
         ?>
@@ -100,14 +97,38 @@ $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$dat
     <main>
     <!------------------ METEORITOS--------------- -->
         <aside>
-            <div class="meteo">
+            <div class="astro">
                 seccion meteorito
                 <?php echo "<p>meteoritos cerca total =$astro_near_total</p>"; ?>
             </div>
 
-            <div class="meteo danger">
+            <div class="astro">
                 seccion meteorito peligroso
-                <?php echo "<p>meteoritos peligrosos = $astro_dangerous;</p>"; ?>
+                
+                <?php 
+                    $total_astro_dangerous=0;
+                    $details_astro_dangerous="";
+                    foreach($astro_near_earth_objects[$date] as $asteroid){
+                        if ($asteroid["is_potentially_hazardous_asteroid"]) {
+                            $total_astro_dangerous++;
+                            $astro_name=$asteroid["name"];
+                            $astro_orbit=$asteroid["close_approach_data"][0]["orbiting_body"];
+                            $astro_diameter=$asteroid["estimated_diameter"]["kilometers"]["estimated_diameter_max"];
+                            $astro_speed=$asteroid["close_approach_data"][0]["relative_velocity"]["kilometers_per_second"];
+                            $astro_distance=$asteroid["close_approach_data"][0]["miss_distance"]["lunar"];
+                            $details_astro_dangerous .=
+                           "<div class='astro danger'>
+                            <p>name: $astro_name]</p>
+                            <p>Orbit: $astro_orbit</p>
+                            <p>Diameter: $astro_diameter Km</p>
+                            <p>Speed: $astro_speed Km/s</p>
+                            <p>Distance: $astro_distance Lunar</p>
+                            </div>";
+                        };
+                    };
+                    echo "<p>meteoritos peligrosos = $total_astro_dangerous;</p>"; 
+                    echo $details_astro_dangerous; 
+                 ?>
             </div>
         </aside>
 
@@ -127,7 +148,7 @@ $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$dat
                         echo "<img width='50%'src='$APOD_url'class='image'></img>";
                         echo "<p><button> <a href='$APOD_url'  download='nasa_imagen.jpg'/> Download</button></</p>";
                     }
-                //echo "<p class='explanation'>explanation: $explanation</p>"
+                echo "<p class='explanation'>explanation: $explanation</p>"
                 ?> 
                 <!-- <p class='explanation'>What created this huge space bubble? Blown by the wind from a star, this
                     tantalizing, head-like apparition is cataloged as NGC 7635, but known simply as the Bubble Nebula.
