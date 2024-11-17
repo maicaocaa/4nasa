@@ -3,7 +3,7 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-header {
+/* header {
     position: fixed;
     z-index: 1;
     left: 0;
@@ -13,13 +13,13 @@ header {
     color: white;
     text-align: center;
     box-shadow: inset black 10px;
-}
-section {
+} */
+/* section {
     background-color: #000000;
     padding-left: 160px;
     color:white;
-}
-
+} */
+/* 
 aside {
     position: fixed;
     height: 100%;
@@ -31,10 +31,10 @@ aside {
     overflow-x: hidden;
     margin-top: 160px;
 
-}
+} */
 
 
-footer {
+/* footer {
         position: fixed;
         z-index: 10;
         left: 0;
@@ -45,4 +45,4 @@ footer {
         text-align: center;
         box-shadow: inset black 10px;
       
-}
+} */
