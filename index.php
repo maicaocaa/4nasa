@@ -1,6 +1,6 @@
 <?php
-session_name('login');
-session_start();
+require 'autentication.php';
+
 
     if (isset($_GET['date']) ){
         $date=$_GET["date"];
@@ -8,6 +8,14 @@ session_start();
         $date=date("Y-m-d");
     };
 
+if(!isset ($_COOKIE['requests'])){
+    setcookie("requests",1, time()+3600*365*24);
+    $requests = 1 ;
+}else{
+    $requests=$_COOKIE['requests'];
+    $requests++;
+    setcookie("requests",$requests,time()+3600*365*24);
+};
 // ------------------ MONTAR LAS URL API --------------------
 $api_key= "Xxy8xya3iNuhKad9jf7gJLTItZB8gKdaS5iG3b9i";
 $picture_url="https://api.nasa.gov/planetary/apod?api_key=$api_key&date=".$date;
@@ -74,6 +82,7 @@ $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$dat
     <!-- ------------- LIMITE CONSULTAS------------ -->
         <p>Aqui las consultas que te quedan</p>
         <!-- <?php var_dump ($header); ?> -->
+        <?php echo "<p>veces accedido $requests</p>"?>
         <?php echo "<p>esto es limit $limit; </p>"; ?>
         <?php echo "<p>esto es remaining $remaining; </p>" ;?>
        
@@ -97,7 +106,8 @@ $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$dat
         <aside>
             <div class="astro">
                 seccion meteorito
-                <?php echo "<p>meteoritos cerca total =$astro_near_total</p>"; ?>
+                <?php $astro_near_total=count($astro_near_earth_objects);
+                echo "<p>meteoritos cerca total =$astro_near_total</p>"; ?>
             </div>
 
             <div class="astro">

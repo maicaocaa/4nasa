@@ -1,4 +1,10 @@
 <?php
+session_name('login');
+session_start();
+if (!isset($_SESSION['username'])){
+  header('Location:login.php');
+}
+
 $servername = "localhost";
 $db_username = "root";
 $db_password = "root";
@@ -12,6 +18,6 @@ $db_name="nasa";
       echo "Connection failed: " . $e->getMessage();
   }
 
-  
+
 
 ?>
