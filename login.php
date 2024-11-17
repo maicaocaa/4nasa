@@ -2,7 +2,21 @@
  require "autentication.php";
  // forulario de acceso sin mas, y boton para conectarse
 
-//  if(isset());
+if($_SERVER['REQUEST_METHOD']==='POST'){
+    $username=$_POST['username'];
+    $password=$_POST['password'];
+
+    if ($username ==='admin' && $password ==='admin'){
+        session_name('login');
+        session_start();
+        $_SESSION['username']=$username;
+        $_SESSION['password']=$password;
+        header('Location:index.php');
+    } else {
+        $error = 'invalid credential';
+        echo  $error;
+    };
+};
 ?>
 
 <!DOCTYPE html>
@@ -18,17 +32,15 @@
 </head>
 <body>
     <h1>Esto es el login</h1>
-    <form method="POST" action="index.php">
+    <form action="login.php" method="POST">
             <label>tu nombre</label>
-            <input type="text" id="usern" name="username" required/>
+            <input type="text"  name="username" required/>
             <label>tu contraseña</label>
-            <input type="password" id="password" name="password" required/>
+            <input type="password" name="password" required/>
             <input type="submit" value="Entrar"/>
     </form>
 
 <?php 
-                    
-                   
                     
                         // try {
                         //     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
