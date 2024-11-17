@@ -1,0 +1,48 @@
+* {
+    font-style:normal;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+header {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background-color: rgb(56, 56, 56);
+    color: white;
+    text-align: center;
+    box-shadow: inset black 10px;
+}
+section {
+    background-color: #000000;
+    padding-left: 160px;
+    color:white;
+}
+
+aside {
+    position: fixed;
+    height: 100%;
+    width: 160px;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    margin-top: 160px;
+
+}
+
+
+footer {
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: rgb(56, 56, 56);
+        color: white;
+        text-align: center;
+        box-shadow: inset black 10px;
+      
+}
