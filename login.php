@@ -1,5 +1,5 @@
 <?php
- require "autentication.php";
+ //require "autentication.php";
  // forulario de acceso sin mas, y boton para conectarse
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
@@ -38,6 +38,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             <label>tu contraseña</label>
             <input type="password" name="password" required/>
             <input type="submit" value="Entrar"/>
+            <a href="./createUser.php">crear nuevo usuario</a>
     </form>
 
 <?php 
@@ -65,6 +66,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
                             // $stmt = $conn->prepare($sql);
                             //https://diego.com.es/tutorial-de-pdo
                            // https://www.w3schools.com/php/php_mysql_prepared_statements.asp ,ejor el perpared
+                           
                            // ver la recofiga de datos como array http://phpdeilusions.net/
                            //password_hash() https://www.php.net/manual/en/function.password-hash.php
                            //password_verify()
@@ -72,6 +74,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 
                            // lo hacemos con la web d eprepared de w3school con el lazy ?git
                             // Asignar valores con seguridad para evitar inyección SQL
+
                         //     $stmt->bindParam(':new_username', $_POST["new_username"]);
                         //     $stmt->bindParam(':new_password', $_POST["new_password1"]);
                         //     $stmt->bindParam(':new_token', $_POST["new_token"]);

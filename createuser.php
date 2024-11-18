@@ -2,9 +2,9 @@
 <?php
 //fomrualrio de crear usuario y donde se hace el insert a la bd
 
-if ($_POST["new_password1"] !== $_POST["new_password2"]) {
-                        echo "las contraseñas no coinciden";
-                    }
+// if (isset($_SERVER)$_POST["new_password1"] !== $_POST["new_password2"]) {
+//                         echo "las contraseñas no coinciden";
+//                     }
 
 ?>
 
