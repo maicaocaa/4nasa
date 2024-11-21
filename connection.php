@@ -14,7 +14,7 @@ $db_name="nasa";
   };
 
   $username="maria";
-  $password="abc123.";
+  $password="abc123.";  //password_hash
   $api="miapi";
 
  //------------------------ FUNCIONA OK dar de alta ------------------
@@ -37,9 +37,10 @@ $db_name="nasa";
 
 // while ($row = $stmt->fetch()){
 //     echo "Nombre: {$row["username"]} <br>";
-//     echo "password: {$row["password"]} <br><br>";
+//     echo "password: {$row["password"]} <br><br>"; 
 //     echo "token: {$row["token"]} <br><br>";
 // }
 
+//password_verify(passintroducida, passde la bd)
 
 ?>

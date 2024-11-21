@@ -1,5 +1,22 @@
 
 <?php
+require "connection.php";
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $sql = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
+
+    // if ($conn->true
+    // } else {
+    //    echo error
+    // }
+}
+?>
+
+
 //fomrualrio de crear usuario y donde se hace el insert a la bd
 
 // if (isset($_SERVER)$_POST["new_password1"] !== $_POST["new_password2"]) {
@@ -17,7 +34,7 @@
 </head>
 <body>
 
-    <form method="POST" action=".">
+    <form method="POST" action="createUser.php">
             <p>si no estas logueado date de alta </p>
                 <label>tu nombre</label>
                 <input type="text" id="username" name="new_username" required/>
@@ -31,5 +48,8 @@
                 <button type="reset" value="borra todo">Reset</button>
     </form>
     
+
+    <!-- // las sesiones para que son ?
+    //------------------- duda si crea usar ok a donde redirigue? a index? -->
 </body>
 </html>

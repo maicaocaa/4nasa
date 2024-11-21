@@ -1,6 +1,4 @@
 <?php
- //require "autentication.php";
- // forulario de acceso sin mas, y boton para conectarse
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
     $username=$_POST['username'];
@@ -32,7 +30,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 </head>
 <body>
     <h1>Esto es el login</h1>
-    <form action="login.php" method="POST">
+    <form action="autentication.php" method="POST">
             <label>tu nombre</label>
             <input type="text"  name="username" required/>
             <label>tu contraseña</label>
