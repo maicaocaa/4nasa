@@ -3,13 +3,15 @@
 
 //---------- DATE valida si hay fecha en el formulario sino la inicializa con el dia de hoy
 
-$date = $_GET['date'] ?? date("Y-m-d");
+    $date = $_GET['date'] ?? date("Y-m-d");
     // if (isset($_GET['date']) ){
     //     $date=$_GET["date"];
     // } else {
     //     $date=date("Y-m-d");
     // };
-$username=$_SESSION['username'] ?? "visitante del espacio";
+
+//---------- USERNAME valida si hay usuario 
+    $username=$_SESSION['username'] ?? "visitante del espacio";
 
 //---------- COOKIES valida si hay cookies definidas, sino las iniciliza con 1
 
@@ -24,16 +26,22 @@ $username=$_SESSION['username'] ?? "visitante del espacio";
 
 //---------- APIS URL ASTRO NECESITA FECHA INICIO Y FIN
 
-$api_key="Xxy8xya3iNuhKad9jf7gJLTItZB8gKdaS5iG3b9i";
-// $api_key=$_SESSION['token'];
-$picture_url="https://api.nasa.gov/planetary/apod?api_key=$api_key&date=$date";
+    $api_key="Xxy8xya3iNuhKad9jf7gJLTItZB8gKdaS5iG3b9i";
+    // $api_key=$_SESSION['token'];
+    $picture_url="https://api.nasa.gov/planetary/apod?api_key=$api_key&date=$date";
 
-$astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$date&api_key=$api_key";
+    $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$date&api_key=$api_key";
 
 
-//    REQUEST IN SESION
+//----------- DESCARGA IMAGEN
 
-// ------------ CABECERA ---------------------------------
+    // if(isset($_GET['download'])){
+    //     $download_path = __DIR__ . '/downloads/' .date("Y-m-d").basename($file);
+    //     copy($APOD_url,$download_path);
+    //     echo"descargando";
+    // }
+
+// ------------ CABECERAS ---------------------------------
     $header=get_headers($picture_url,1);
     $limit=$header["X-Ratelimit-Limit"];
     $remaining=$header["X-Ratelimit-Remaining"];
@@ -45,11 +53,7 @@ $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$dat
     $title=$data->title;
     $APOD_url=$data->url;
     $explanation=$data->explanation;
-        //$copyright no todas tienen
-      
-        // var_dump($data);
-        
-        //print_r(get_headers($picture_url, 1));
+
 
 // ------------ METEORITOS ----------------------------------
     $astro_response=file_get_contents($astro_url);
@@ -131,13 +135,13 @@ $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$dat
                  <!------------------ FORMULARIO DE FECHA--------------- -->
          <div>
                 <form action="index2.php" method="GET" class="form-inline">
-                    <label for="date">introduce el dia</label>
+                    <label for="date">Día</label>
                     <input type="date" name="date" id="date" value="<?php echo $date?>" />
                     <input class="w3-button w3-black w3-border w3-border-red" type="submit" value="VER FOTO" />
                 </form>
                 
          </div>
-                 <!------------------ FORMULARIO DE FECHA--------------- -->
+                 <!------------------ BOTON SALIR --------------- -->
          <button  class="w3-button w3-black w3-border w3-border-red"
                 onclick="if (confirm('¿Estás seguro de que quieres desloguearte?')) { window.location.href = 'login.php'; }">
                 SALIR
@@ -163,10 +167,13 @@ $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$dat
                         echo "<iframe src='$APOD_url'  width='560' height='315' frameborder='0'  allowfullscreen></iframe>";
 
                     }else if ($data->media_type ==="image"){
-                        echo "<img style='width:100%' src='$APOD_url'class='image'>";
-                        $save_path="./downloads";
-                        echo "<p><button  href='$APOD_url' class='w3-button w3-black w3-border w3-border-red' >DESCARGAR IMAGEN </button></p>";
-                      
+                        echo "<img style='width:100%' src=$APOD_url class='image'>";
+                        echo 
+                             "<form method=GET action='download.php' target='iframe' >
+                             <input name='download' value=$APOD_url hidden>
+                             <button type=submit  class='w3-button w3-black w3-border w3-border-red'>DESCARGAR IMAGEN</button>
+                             </form>";
+                        echo "<iframe name='iframe' style='display:none'></iframe>";
                     }
                 
                 echo "<p class='explanation'>explanation: $explanation</p>";
@@ -185,13 +192,11 @@ $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$dat
 
             <div >
                <h2> Meteoritos peligroso </h2>
-               
-         
-                
 
                  <?php
-                                     echo "<p>meteoritos peligrosos = $total_astro_dangerous;</p>"; 
-                                     echo "<div class='w3-row-padding w3-margin-top'> $details_astro_dangerous </div>"; ?>
+                 echo "<p>meteoritos peligrosos = $total_astro_dangerous;</p>"; 
+                 echo "<div class='w3-row-padding w3-margin-top'> $details_astro_dangerous </div>"; 
+                 ?>
             </div>
     </aside>
 
