@@ -3,16 +3,9 @@ session_name('login');
 session_start();
 
 
-if (!isset($_SESSION['username'])){
+ if (!isset($_SESSION['username'])){
   header('Location:login.php');
-}
-
-// // } else {
-//   $username=$_POST["username"];
-//   $password=$_POST["password"];
-//   //recoge bien los datos del formulario
-//   // echo $username;
-//   // echo$password;
+ } 
 
 //   $stmt =$conn->prepare("SELECT * FROM users");
 
@@ -39,7 +32,9 @@ if (!isset($_SESSION['username'])){
 
     ///credenciales correctas redirigue a index
     //sino imprime un error pero como lo imprime, con un alert en login?
-  // }
+ 
+
+
 
 
 

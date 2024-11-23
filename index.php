@@ -1,5 +1,5 @@
 <?php 
-require 'autentication.php';
+//require 'autentication.php';
 ?>
 
 <!DOCTYPE html>
@@ -13,3 +13,4 @@ require 'autentication.php';
     <h1>esto es index</h1>
 </body>
 </html>
+

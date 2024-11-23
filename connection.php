@@ -13,9 +13,9 @@ $db_name="nasa";
       echo "Connection failed: " . $e->getMessage();
   };
 
-  $username="maria";
-  $password="abc123.";  //password_hash
-  $api="miapi";
+  // $username="maria";
+  // $password="abc123.";  //password_hash
+  // $api="miapi";
 
  //------------------------ FUNCIONA OK dar de alta ------------------
 // $stmt =$conn->prepare("INSERT INTO users (username, password,token) VALUES (?,?,?)");

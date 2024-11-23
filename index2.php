@@ -33,14 +33,6 @@
     $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$date&api_key=$api_key";
 
 
-//----------- DESCARGA IMAGEN
-
-    // if(isset($_GET['download'])){
-    //     $download_path = __DIR__ . '/downloads/' .date("Y-m-d").basename($file);
-    //     copy($APOD_url,$download_path);
-    //     echo"descargando";
-    // }
-
 // ------------ CABECERAS ---------------------------------
     $header=get_headers($picture_url,1);
     $limit=$header["X-Ratelimit-Limit"];
@@ -104,10 +96,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- <link rel="stylesheet" href="styles.css"> -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-metro.css">
     <style>
     body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     </style>
@@ -115,46 +106,43 @@
 </head>
 
 
-<body class="w3-dark-grey  w3-text-orange">
+<body class="w3-dark-grey  w3-text-white">
 
-    <header class="w3-black  w3-center w3-padding-32">
+    <header class="w3-black w3-bar w3-padding-32 ">
 
+    <div class="w3-bar w3-green w3-margin">
+        <img class="w3-bar-item" src="img/NASAlogo.png" style='width:15%' >
+        <h4 class="w3-bar-item" >Hola <?php echo $username;?></h4>
+       
+        <button  class="w3-bar-item w3-right w3-button w3-black w3-border w3-border-red "
+                onclick="if (confirm('¿Estás seguro de que quieres desloguearte?')) { window.location.href = 'login.php'; }">
+                SALIR
+        </button>
+    </div>
         
-        <img src="img/NASAlogo.png" style='width:15%' >
-
-        <h2>Hola <?php echo $username;?></h2>
-    
-
-             <!-- ------------- LIMITE CONSULTAS------------ -->
-        <div>
+    <div class="w3-bar-item">
             <p>Uso de la API</p>
             <?php echo "<p>Consultas total: $requests</p>"; ?>
             <?php echo "<p>Límite por hora: $limit</p>"; ?>
             <?php echo "<p>Quedan: $remaining</p>"; ?>
-        </div>  
+        </div>
+      
+
                  <!------------------ FORMULARIO DE FECHA--------------- -->
          <div>
                 <form action="index2.php" method="GET" class="form-inline">
                     <label for="date">Día</label>
                     <input type="date" name="date" id="date" value="<?php echo $date?>" />
-                    <input class="w3-button w3-black w3-border w3-border-red" type="submit" value="VER FOTO" />
+                    <input class="w3-button w3-black w3-border w3-border-red " type="submit" value="VER FOTO" />
                 </form>
                 
          </div>
                  <!------------------ BOTON SALIR --------------- -->
-         <button  class="w3-button w3-black w3-border w3-border-red"
-                onclick="if (confirm('¿Estás seguro de que quieres desloguearte?')) { window.location.href = 'login.php'; }">
-                SALIR
-        </button>
+       
 
     </header>
 
-
-
-
-
     <main>
- 
    <!------------------ IMAGEN O VIDEO--------------- -->
         <section  class="w3-container w3-black w3-animate-opacity">
             <article> 
@@ -206,7 +194,7 @@
 
 
       <!------------------ FOOTER-------------- -->
-    <footer class="w3-container w3-dark-grey">
+    <footer class="w3-container w3-metro-darken">
         <p>Creado por Maria Cao /  2024</p>
     </footer>
 </body>
