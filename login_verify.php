@@ -32,16 +32,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $conn->prepare($query);
     $stmt->execute([$username]);
 
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    foreach ($users as $user) {
-        // Procesar cada fila
-        echo "Username: {$user['username']}<br>";
-        echo "Password: {$user['password']}<br>";
-        echo "Token: {$user['token']}<br>";
-        password_verify($password, $usr['password']);
+   if($user){
+        if(password_verify($password,$user['password'])){
+            echo"exito, contraseña igual";
+            echo $user['password'];
+            echo $password;
+        }else{
+            echo'la contraseña no coincide';
+            var_dump( $user['password']);
+            var_dump ($password);
+        }
+    }else{
+        echo 'usuario no encontrado, no hemso tenido ningun resutlado d ela bsuqueda';
     }
+}
 
+
+
+
+// ------------------------------------------------------------
+//     $query = "SELECT * FROM users WHERE username = ?";
+//     $stmt = $conn->prepare($query);
+//     $stmt->execute([$username]);
+
+//     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+//     foreach ($users as $user) {
+//         // Procesar cada fila
+//         echo "Username: {$user['username']}<br>";
+//         echo "Password: {$user['password']}<br>";
+//         echo "Token: {$user['token']}<br>";
+//         password_verify($password, $usr['password']);
+//     }
+// --------------------------------------------------------------
 
 
     // Verificación de contraseña
@@ -59,10 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //     // header("Location:login.php")>
     //     exit();
     // }
-}
 
-?>
 
-    <p></p>
-</body>
+    ?>
+
+    
+    </body>
 </html>
