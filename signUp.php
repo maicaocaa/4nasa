@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 
-//fomrualrio de crear usuario y donde se hace el insert a la bd
+<!-- //fomrualrio de crear usuario y donde se hace el insert a la bd
 
 // if (isset($_SERVER)$_POST["new_password1"] !== $_POST["new_password2"]) {
 //                         echo "las contraseñas no coinciden";
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header
 }
 
-?>
+?> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -54,15 +54,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input class="w3-input w3-border" name="username" type="text" required></p>
                     
                     <label class="w3-text-white"><b>Contraseña</b></label>
-                    <input class="w3-input w3-border" type="password" name="password" required></p>
+                    <input class="w3-input w3-border" type="password" id="password" name="password" required></p>
 
                     <label class="w3-text-white"><b>Repite la contraseña</b></label>
-                    <input class="w3-input w3-border" type="password" name="password2" required></p>
+                    <input class="w3-input w3-border" type="password" id="confirmPassword" name="confirm_password" required></p>
+
+                    <!-- mensaje de error -->
+                    <p id="errorMessage" class="w3-border w3-text-red" style ="display:none;">Las contraseñas no coinciden</p>
 
                     <label class="w3-text-white"><b>Token</b></label>
                     <input class="w3-input w3-border" type="text" name="token" required></p>
             
-                    <button type= submit class="w3-button w3-black w3-border w3-border-red">Darse de alta</button></p>
+                    <button type= submit id="submitButton"class="w3-button w3-black w3-border w3-border-red">Darse de alta</button></p>
                 </form>
                 <p>No tienes token? Consigue el tuyo <a href="https://api.nasa.gov/">aquí</a></p>
                 <p>Volver a <a href="login.php">login</a></p>
@@ -71,7 +74,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>  
     </section>
 
-    <!-- // las sesiones para que son  son para pasar inforamcion entre paguina y paguina?
-    //------------------- duda si crea usar ok a donde redirigue? a index? -->
+    
+    <script>
+        function validatePasswords() {
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+            var errorMessage = document.getElementById("errorMessage");
+            var submitButton = document.getElementById("submitButton");
+
+            // sino oinciden display pas a bloc
+            if (password !== confirmPassword) {
+                errorMessage.style.display = "block"; // Mostrar el mensaje de error
+                submitButton.disabled = true; // Deshabilitar el botón de submit
+            } else {
+                errorMessage.style.display = "none"; // Ocultar el mensaje de error
+                submitButton.disabled = false; // Habilitar el botón de submit
+            }
+        }
+
+        // va mostrando a tiempo real los cambios
+        document.getElementById("password").addEventListener("input", validatePasswords);
+        document.getElementById("confirmPassword").addEventListener("input", validatePasswords);
+    </script>
 </body>
 </html>
