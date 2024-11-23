@@ -1,38 +1,38 @@
 <?php
 session_name('login');
 session_start();
-global $conn;
-require 'connection.php';
-
-// if (!isset($_SESSION['username'])){
-//   header('Location:login.php');
-
-// } else {
-  $username=$_POST["username"];
-  $password=$_POST["password"];
-  //recoge bien los datos del formulario
-  // echo $username;
-  // echo$password;
-
-  $stmt =$conn->prepare("SELECT * FROM users");
-
- // $stmt ->bindParam(1,$username);
-  $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
 
+if (!isset($_SESSION['username'])){
+  header('Location:login.php');
+}
 
-  /// NO recoge bien los valores
-  $stmt->execute();
-  // $stmt->fetchAll(PDO::FETCH_ASSOC);   -> si pongo esto despues a mi no me funcion porq ue yo lo hago asoc y el objeto
-                                            // fetch all para objeto
+// // } else {
+//   $username=$_POST["username"];
+//   $password=$_POST["password"];
+//   //recoge bien los datos del formulario
+//   // echo $username;
+//   // echo$password;
 
-  //vemos lo que trae de la busqueda
-  var_dump($stmt->fetch());
+//   $stmt =$conn->prepare("SELECT * FROM users");
 
-  while ($row = $stmt->fetch()){
-           echo "Nombre: {$row["username"]} <br>";
-    //     echo "password: {$row["password"]} <br><br>"; 
-    //     echo "token: {$row["token"]} <br><br>";
+//  // $stmt ->bindParam(1,$username);
+//   $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+
+
+//   /// NO recoge bien los valores
+//   $stmt->execute();
+//   // $stmt->fetchAll(PDO::FETCH_ASSOC);   -> si pongo esto despues a mi no me funcion porq ue yo lo hago asoc y el objeto
+//                                             // fetch all para objeto
+
+//   //vemos lo que trae de la busqueda
+//   var_dump($stmt->fetch());
+
+//   while ($row = $stmt->fetch()){
+//            echo "Nombre: {$row["username"]} <br>";
+//     //     echo "password: {$row["password"]} <br><br>"; 
+//     //     echo "token: {$row["token"]} <br><br>";
 
 
 
