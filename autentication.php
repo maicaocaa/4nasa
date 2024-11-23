@@ -39,9 +39,7 @@ if (!isset($_SESSION['username'])){
 
     ///credenciales correctas redirigue a index
     //sino imprime un error pero como lo imprime, con un alert en login?
-  }
-
-
+  // }
 
 
 

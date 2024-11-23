@@ -8,11 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
 
     $sql = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
-
-    // if ($conn->true
-    // } else {
-    //    echo error
-    // }
+    
 }
 ?>
 

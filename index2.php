@@ -1,33 +1,36 @@
 <?php
-require 'autentication.php';
+//require 'autentication.php';
 
+//---------- DATE valida si hay fecha en el formulario sino la inicializa con el dia de hoy
 
-    if (isset($_GET['date']) ){
-        $date=$_GET["date"];
+$date = $_GET['date'] ?? date("Y-m-d");
+    // if (isset($_GET['date']) ){
+    //     $date=$_GET["date"];
+    // } else {
+    //     $date=date("Y-m-d");
+    // };
+$username=$_SESSION['username'] ?? "visitante del espacio";
+
+//---------- COOKIES valida si hay cookies definidas, sino las iniciliza con 1
+
+    if(!isset ($_COOKIE['requests'])){
+        setcookie("requests",1, time()+3600*365*24);
+        $requests = 1 ;
     }else{
-        $date=date("Y-m-d");
+        $requests=$_COOKIE['requests'];
+        $requests++;
+        setcookie("requests",$requests,time()+3600*365*24);
     };
 
-if(!isset ($_COOKIE['requests'])){
-    setcookie("requests",1, time()+3600*365*24);
-    $requests = 1 ;
-}else{
-    $requests=$_COOKIE['requests'];
-    $requests++;
-    setcookie("requests",$requests,time()+3600*365*24);
-};
-// ------------------ MONTAR LAS URL API --------------------
-$api_key= "Xxy8xya3iNuhKad9jf7gJLTItZB8gKdaS5iG3b9i";
-$picture_url="https://api.nasa.gov/planetary/apod?api_key=$api_key&date=".$date;
-//$picture_url="https://api.nasa.gov/planetary/apod?api_key=$api_key";
+//---------- APIS URL ASTRO NECESITA FECHA INICIO Y FIN
 
-//---------------- ASTRO NECESITA FECHA de icio y fin, se le pone la misma, sino repite los astros de ayer y hoy----------------
+$api_key="Xxy8xya3iNuhKad9jf7gJLTItZB8gKdaS5iG3b9i";
+// $api_key=$_SESSION['token'];
+$picture_url="https://api.nasa.gov/planetary/apod?api_key=$api_key&date=$date";
+
 $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$date&api_key=$api_key";
 
 
-//        REMAINING API seguro que va con las coookies
-
-//$remaining_api=$_cookie("remaining_api");
 //    REQUEST IN SESION
 
 // ------------ CABECERA ---------------------------------
@@ -36,12 +39,12 @@ $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$dat
     $remaining=$header["X-Ratelimit-Remaining"];
 
 // ------------ IMAGEN DEL DIA -------------------------------
-        $response=file_get_contents("$picture_url");
-        $data=json_decode($response);
+    $response=file_get_contents($picture_url);
+    $data=json_decode($response);
 
-        $title=$data->title;
-        $APOD_url=$data->url;
-        $explanation=$data->explanation;
+    $title=$data->title;
+    $APOD_url=$data->url;
+    $explanation=$data->explanation;
         //$copyright no todas tienen
       
         // var_dump($data);
@@ -54,7 +57,38 @@ $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$dat
     // var_dump($astro_data);
     $astro_near_earth_objects=$astro_data["near_earth_objects"];
    // var_dump($astro_near_earth_objects);
-   echo "esto es la fecha $date";
+
+   $total_astro_dangerous=0;
+   $details_astro_dangerous="";
+
+   foreach($astro_near_earth_objects[$date] as $asteroid){
+       if ($asteroid["is_potentially_hazardous_asteroid"]) {
+
+           $total_astro_dangerous++;
+
+           $astro_name=$asteroid["name"];
+           $astro_orbit=$asteroid["close_approach_data"][0]["orbiting_body"];
+           $astro_diameter=$asteroid["estimated_diameter"]["kilometers"]["estimated_diameter_max"];
+           $astro_speed=$asteroid["close_approach_data"][0]["relative_velocity"]["kilometers_per_second"];
+           $astro_distance=$asteroid["close_approach_data"][0]["miss_distance"]["lunar"];
+           
+           $details_astro_dangerous .=
+          "<div class='w3-col l4 m6 s12 w3-margin-bottom ' >
+               <div class='w3-card-4 w3-dark-grey'>
+                   <header class='w3-container w3-red'>
+                        <h4>$astro_name</h4>
+                   </header>
+                   <div class='w3-text-white w3-container w3-small' >
+                       <p>Orbita: $astro_orbit</p>
+                       <p>Diametro: $astro_diameter Km</p>
+                       <p>Velocidad: $astro_speed Km/s</p>
+                       <p>Distancia: $astro_distance Lunar</p>
+                   </div>
+               </div>
+           </div>";
+       };
+   };
+
 
 ?>
 
@@ -66,115 +100,108 @@ $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$dat
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <style>
+    body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+    </style>
+
 </head>
 
 
-<body>
-    <header>
-        <h1>nasa index</h1>
-        <h2>Hola <?php echo $_SESSION['username']; ?></h2>
-        <button type="button"
-            onclick="if (confirm('¿Estás seguro de que quieres desloguearte?')) { window.location.href = 'login.php'; }">
-            Log out
+<body class="w3-dark-grey  w3-text-orange">
+
+    <header class="w3-black  w3-center w3-padding-32">
+
+        
+        <img src="img/NASAlogo.png" style='width:15%' >
+
+        <h2>Hola <?php echo $username;?></h2>
+    
+
+             <!-- ------------- LIMITE CONSULTAS------------ -->
+        <div>
+            <p>Uso de la API</p>
+            <?php echo "<p>Consultas total: $requests</p>"; ?>
+            <?php echo "<p>Límite por hora: $limit</p>"; ?>
+            <?php echo "<p>Quedan: $remaining</p>"; ?>
+        </div>  
+                 <!------------------ FORMULARIO DE FECHA--------------- -->
+         <div>
+                <form action="index2.php" method="GET" class="form-inline">
+                    <label for="date">introduce el dia</label>
+                    <input type="date" name="date" id="date" value="<?php echo $date?>" />
+                    <input class="w3-button w3-black w3-border w3-border-red" type="submit" value="VER FOTO" />
+                </form>
+                
+         </div>
+                 <!------------------ FORMULARIO DE FECHA--------------- -->
+         <button  class="w3-button w3-black w3-border w3-border-red"
+                onclick="if (confirm('¿Estás seguro de que quieres desloguearte?')) { window.location.href = 'login.php'; }">
+                SALIR
         </button>
 
-    <!-- ------------- LIMITE CONSULTAS------------ -->
-        <p>Aqui las consultas que te quedan</p>
-        <!-- <?php var_dump ($header); ?> -->
-        <?php echo "<p>veces accedido $requests</p>"?>
-        <?php echo "<p>esto es limit $limit; </p>"; ?>
-        <?php echo "<p>esto es remaining $remaining; </p>" ;?>
-       
-        <nav>
-    <!------------------ FORMULARIO DE FECHA--------------- -->
-                <form action="./index.php" method="GET">
-                    <label for="date">introduce el dia</label>
-                    <input type="date" name="date" id="date"
-                        value="<?php echo $date?>" />
-                    <input type="submit" value="vamos" />
-                </form>
-
-                <p><?php echo $date;?></p>
-         </nav>
     </header>
 
 
 
+
+
     <main>
-    <!------------------ METEORITOS--------------- -->
-        <aside>
+ 
+   <!------------------ IMAGEN O VIDEO--------------- -->
+        <section  class="w3-container w3-black w3-animate-opacity">
+            <article> 
+                <p>Esta es la imagen del dia: <?php echo $date;?></p>
+                <p class="title"><?php echo $title ?></p>
+              
+ 
+                <?php
+                    if ($data->media_type ==="video"){
+                        echo "<iframe src='$APOD_url'  width='560' height='315' frameborder='0'  allowfullscreen></iframe>";
+
+                    }else if ($data->media_type ==="image"){
+                        echo "<img style='width:100%' src='$APOD_url'class='image'>";
+                        $save_path="./downloads";
+                        echo "<p><button  href='$APOD_url' class='w3-button w3-black w3-border w3-border-red' >DESCARGAR IMAGEN </button></p>";
+                      
+                    }
+                
+                echo "<p class='explanation'>explanation: $explanation</p>";
+                ?> 
+            </article>
+        </section>
+
+
+   <!------------------ METEORITOS--------------- -->
+   <aside>
             <div class="astro">
                 seccion meteorito
                 <?php $astro_near_total=count($astro_near_earth_objects);
                 echo "<p>meteoritos cerca total =$astro_near_total</p>"; ?>
             </div>
 
-            <div class="astro">
-                seccion meteorito peligroso
+            <div >
+               <h2> Meteoritos peligroso </h2>
+               
+         
                 
-                <?php 
 
-                    $total_astro_dangerous=0;
-                    $details_astro_dangerous="";
-
-                    foreach($astro_near_earth_objects[$date] as $asteroid){
-                        if ($asteroid["is_potentially_hazardous_asteroid"]) {
-
-                            $total_astro_dangerous++;
-
-                            $astro_name=$asteroid["name"];
-                            $astro_orbit=$asteroid["close_approach_data"][0]["orbiting_body"];
-                            $astro_diameter=$asteroid["estimated_diameter"]["kilometers"]["estimated_diameter_max"];
-                            $astro_speed=$asteroid["close_approach_data"][0]["relative_velocity"]["kilometers_per_second"];
-                            $astro_distance=$asteroid["close_approach_data"][0]["miss_distance"]["lunar"];
-                            
-                            $details_astro_dangerous .=
-                           "<div class='astro danger'>
-                            <p>name: $astro_name]</p>
-                            <p>Orbit: $astro_orbit</p>
-                            <p>Diameter: $astro_diameter Km</p>
-                            <p>Speed: $astro_speed Km/s</p>
-                            <p>Distance: $astro_distance Lunar</p>
-                            </div>";
-                        };
-                    };
-
-                    echo "<p>meteoritos peligrosos = $total_astro_dangerous;</p>"; 
-                    echo $details_astro_dangerous; 
-
-                 ?>
-
+                 <?php
+                                     echo "<p>meteoritos peligrosos = $total_astro_dangerous;</p>"; 
+                                     echo "<div class='w3-row-padding w3-margin-top'> $details_astro_dangerous </div>"; ?>
             </div>
-        </aside>
+    </aside>
 
-        <section>
-            <article> esta es la imagen del dia
-                <p class="title"><?php echo $title ?></p>
-              
-    <!------------------ IMAGEN O VIDEO--------------- -->
-                <?php
-                    if ($data->media_type ==="video"){
-                        echo"es video";
-                        echo "<iframe src='$APOD_url' class='video'></iframe>";
-
-                    }else if ($data->media_type ==="image"){
-                        echo "<img width='50%'src='$APOD_url'class='image'></img>";
-                        $save_path="./downloads";
-                      
-                    }
-                echo "<p><a class='button'href='$APOD_url' download='nasa_imagen.jpg'>Descargar imagen</a></p>";
-                echo "<p class='explanation'>explanation: $explanation</p>";
-                ?> 
-            </article>
-        </section>
 
     </main>
 
 
 
       <!------------------ FOOTER-------------- -->
-    <footer>
+    <footer class="w3-container w3-dark-grey">
         <p>Creado por Maria Cao /  2024</p>
     </footer>
 </body>

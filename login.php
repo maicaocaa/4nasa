@@ -4,16 +4,16 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     $username=$_POST['username'];
     $password=$_POST['password'];
 
-    if ($username ==='admin' && $password ==='admin'){
-        session_name('login');
-        session_start();
-        $_SESSION['username']=$username;
-        $_SESSION['password']=$password;
-        header('Location:index.php');
-    } else {
-        $error = 'invalid credential';
-        echo  $error;
-    };
+    // if ($username ==='admin' && $password ==='admin'){
+    //     session_name('login');
+    //     session_start();
+    //     $_SESSION['username']=$username;
+    //     $_SESSION['password']=$password;
+    //     header('Location:index.php');
+    // } else {
+    //     $error = 'invalid credential';
+    //     echo  $error;
+    // };
 };
 ?>
 
@@ -23,8 +23,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- BOOSTRAP -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+ 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 
 </head>
