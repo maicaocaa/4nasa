@@ -36,16 +36,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
    if($user){
         if(password_verify($password,$user['password'])){
-            echo"exito, contraseña igual";
-            echo $user['password'];
-            echo $password;
-        }else{
+            $_SESSION['username']= $username;
+            $_SESSION['token']=$user['token'];
+            header("Location:index.php");
+            exit();
+        } else {
             echo'la contraseña no coincide';
-            var_dump( $user['password']);
-            var_dump ($password);
+            $error="Error en la contraseña";
+            header("Location: login.php?error=error_db");
+            exit();
         }
     }else{
-        echo 'usuario no encontrado, no hemso tenido ningun resutlado d ela bsuqueda';
+        $error="El usuario no existe";
+        header("Location: login.php?error=error_db");
+        exit();
     }
 }
 

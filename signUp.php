@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="w3-col l5 m5 s12 w3-padding " style="justify-content:center;">
                 <div class="w3-container w3-center "><img style="width:50%; margin-bottom: 20px;" src="./img/NASAlogo.png"></div>
                 
-                <form class="w3-container  w3-black" action="autentication.php" method="POST">
+                <form class="w3-container  w3-black" action="signUp_verify.php" method="POST">
                     <h2 class="w3-text-white">Date de alta en Nasa APOD</h2>
                 
                     <label class="w3-text-white"><b>Nombre de usuario</b></label>

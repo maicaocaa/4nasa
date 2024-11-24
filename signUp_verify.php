@@ -2,8 +2,6 @@
 require 'connection.php'; // Conexión a la base de datos
 session_name('login');
 session_start();
-
-
 ?>
 
 <!DOCTYPE html>
@@ -17,34 +15,49 @@ session_start();
 
 <?php 
 
-echo" este es el sign up  verify  ";
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $sesusername= $_SESSION['username'];
+    echo" este es el sign up  verify  ";
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $hashed_password= password_hash($password,PASSWORD_DEFAULT);
+        $token=$_POST['token'];
+        $sesusername= $_SESSION['username'];
 
-    echo" <p> username:  $username </p> ";
-    echo" <p> password: $password </p> ";
-    echo" <p> sesion: $sesusername </p> ";
+        echo" <p> username:  $username </p> ";
+        echo" <p> password: $password </p> ";
+        echo" <p> sesion: $sesusername </p> ";
 
-// -------------------- busquea de usuario ---------------
-    $query = "SELECT * FROM users WHERE username = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->execute([$username]);
+    try {
+        $query = "SELECT count(username) FROM users WHERE username = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->execute([$username]);
 
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $count = $stmt->fetch(PDO::FETCH_ASSOC);
+        var_dump($count);
 
-   if($user){
-        if(password_verify($password,$user['password'])){
-            echo"exito, contraseña igual";
-            echo $user['password'];
-            echo $password;
-        }else{
-            echo'la contraseña no coincide';
-            var_dump( $user['password']);
-            var_dump ($password);
+        if ($count['count(username)']>0){
+            echo"usuario existe";
+            //header("Location: login.php?error=usuario_existente");
+            exit();
+
+        } else {
+            $query = "INSERT INTO users (username, password,token) VALUES (?,?,?)";
+            $stmt = $conn->prepare($query);
+            $stmt->execute([$username,$hashed_password,$token]);
+
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            echo"grabado con exito";
         }
-    }else{
-        echo 'usuario no encontrado, no hemso tenido ningun resutlado d ela bsuqueda';
+
+        
+    } catch (PDOException $e) {
+       // header("Location: login.php?error=error_alta");
+       echo"error excepcion $e";
+        exit();
+
     }
+    // -------------------- alta  de usuario ---------------
+
+
+   
 }
