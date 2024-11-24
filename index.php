@@ -1,6 +1,10 @@
 <?php
 require 'autentication.php';
 
+
+
+
+
 //---------- DATE valida si hay fecha en el formulario sino la inicializa con el dia de hoy
 
     $date = $_GET['date'] ?? date("Y-m-d");
@@ -14,7 +18,7 @@ require 'autentication.php';
     $username=$_SESSION['username'] ?? "visitante del espacio";
 
 //---------- COOKIES valida si hay cookies definidas, sino las iniciliza con 1
-
+ 
     if(!isset ($_COOKIE['requests'])){
         setcookie("requests",1, time()+3600*365*24);
         $requests = 1 ;
@@ -26,11 +30,8 @@ require 'autentication.php';
 
 //---------- APIS URL ASTRO NECESITA FECHA INICIO Y FIN
 
-    $api_key="Xxy8xya3iNuhKad9jf7gJLTItZB8gKdaS5iG3b9i";
-    //$api_key=$_SESSION['token'];
-    echo $_SESSION['token'];
-    echo $_SESSION['username'];
-    echo $username;
+    //$api_key="Xxy8xya3iNuhKad9jf7gJLTItZB8gKdaS5iG3b9i";
+    $api_key=$_SESSION['token'];
 
     $picture_url="https://api.nasa.gov/planetary/apod?api_key=$api_key&date=$date";
 
@@ -111,27 +112,19 @@ require 'autentication.php';
 
 
 <body class="w3-dark-grey  w3-text-white">
+    
+    <header class="w3-black  ">
 
-    <header class="w3-black w3-bar w3-padding-32 ">
+    <span class="w3-text-metro-darken w3-grey">Hola <?php echo "$username Consultas total: $requests Límite por hora: $limit Quedan: $remaining</span>"; ?>
+    <button class="w3-bar-item w3-button w3-right w3-black w3-border w3-border-red"
+                onclick="if (confirm('¿Estás seguro de que quieres desloguearte?')) { window.location.href = 'login.php'; }"> SALIR
+    </button>
+    
+    <div class="w3-bar">
 
-    <div class="w3-bar w3-green w3-margin">
-        <img class="w3-bar-item" src="img/NASAlogo.png" style='width:15%' >
-        <h4 class="w3-bar-item" >Hola <?php echo $username;?></h4>
-       
-        <button  class="w3-bar-item w3-right w3-button w3-black w3-border w3-border-red "
-                onclick="if (confirm('¿Estás seguro de que quieres desloguearte?')) { window.location.href = 'login.php'; }">
-                SALIR
-        </button>
-    </div>
+        <img class="w3-bar-item" src="img/NASAlogo.png" style="width: 15%;">
+        <p class="title">A PICTURE OF THE DAY - NASA</p>
         
-    <div class="w3-bar-item">
-            <p>Uso de la API</p>
-            <?php echo "<p>Consultas total: $requests</p>"; ?>
-            <?php echo "<p>Límite por hora: $limit</p>"; ?>
-            <?php echo "<p>Quedan: $remaining</p>"; ?>
-        </div>
-      
-
                  <!------------------ FORMULARIO DE FECHA--------------- -->
          <div>
                 <form action="index.php" method="GET" class="form-inline">
@@ -139,19 +132,16 @@ require 'autentication.php';
                     <input type="date" name="date" id="date" value="<?php echo $date?>" />
                     <input class="w3-button w3-black w3-border w3-border-red " type="submit" value="VER FOTO" />
                 </form>
-                
          </div>
-                 <!------------------ BOTON SALIR --------------- -->
-       
-
+             
+    
     </header>
 
     <main>
    <!------------------ IMAGEN O VIDEO--------------- -->
         <section  class="w3-container w3-black w3-animate-opacity">
             <article> 
-                <p>Esta es la imagen del dia: <?php echo $date;?></p>
-                <p class="title"><?php echo $title ?></p>
+                <p class="title"><?php echo "$title / $date" ?></p>
               
  
                 <?php

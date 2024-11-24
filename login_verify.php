@@ -2,8 +2,6 @@
 require 'connection.php'; // Conexión a la base de datos
 session_name('login');
 session_start();
-
-
 ?>
 
 <!DOCTYPE html>
@@ -42,55 +40,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         } else {
             echo'la contraseña no coincide';
-            $error="Error en la contraseña";
-            header("Location: login.php?error=error_db");
+            $info="Error en la contraseña. Intentalo de nuevo";
+            header("Location: login.php?info=$info");
             exit();
         }
     }else{
-        $error="El usuario no existe";
-        header("Location: login.php?error=error_db");
+        $error="El usuario no existe. Intentalo de nuevo";
+        header("Location: login.php?info=$info");
         exit();
     }
 }
-
-
-
-
-// ------------------------------------------------------------
-//     $query = "SELECT * FROM users WHERE username = ?";
-//     $stmt = $conn->prepare($query);
-//     $stmt->execute([$username]);
-
-//     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-//     foreach ($users as $user) {
-//         // Procesar cada fila
-//         echo "Username: {$user['username']}<br>";
-//         echo "Password: {$user['password']}<br>";
-//         echo "Token: {$user['token']}<br>";
-//         password_verify($password, $usr['password']);
-//     }
-// --------------------------------------------------------------
-
-
-    // Verificación de contraseña
-    // if ($username === $user['username'] ) {
-       
-    //     echo" <p> username:  $username </p> ";
-        
-    //     // header("Location:index.php"); // Redirigir a la página principal
-    //     echo"exito";
-    //     exit();
-    // } else {
-    //     echo"no exito";
-    //     echo" <p> username:  $username </p>";
-    //     // header("Location:login.php?error=$password"); // Redirigir con un mensaje de error
-    //     // header("Location:login.php")>
-    //     exit();
-    // }
-
-
-    ?>
+?>
 
     
     </body>

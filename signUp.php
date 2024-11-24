@@ -1,27 +1,8 @@
-
 <?php
-require "connection.php";
-
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    $sql = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
-
-}
+    if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['info'])){
+        $info=$_GET['info'];    
+    } 
 ?>
-
-
-<!-- //fomrualrio de crear usuario y donde se hace el insert a la bd
-
-// if (isset($_SERVER)$_POST["new_password1"] !== $_POST["new_password2"]) {
-//                         echo "las contraseñas no coinciden";
-//} else {
-    header
-}
-
-?> -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,7 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 <form class="w3-container  w3-black" action="signUp_verify.php" method="POST">
                     <h2 class="w3-text-white">Date de alta en Nasa APOD</h2>
-                
+                     
+                    <?php if (isset ($info)){echo"<p class='w3-text-blue'>$info</p>"; } ?> 
                     <label class="w3-text-white"><b>Nombre de usuario</b></label>
                     <input class="w3-input w3-border" name="username" type="text" required></p>
                     
@@ -82,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             var errorMessage = document.getElementById("errorMessage");
             var submitButton = document.getElementById("submitButton");
 
-            // sino oinciden display pas a bloc
+            // sino coinciden display pasa a block
             if (password !== confirmPassword) {
                 errorMessage.style.display = "block"; // Mostrar el mensaje de error
                 submitButton.disabled = true; // Deshabilitar el botón de submit

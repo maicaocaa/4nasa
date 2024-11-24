@@ -14,18 +14,12 @@ session_start();
 <body>
 
 <?php 
-
-    echo" este es el sign up  verify  ";
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = $_POST['username'];
         $password = $_POST['password'];
         $hashed_password= password_hash($password,PASSWORD_DEFAULT);
         $token=$_POST['token'];
         $sesusername= $_SESSION['username'];
-
-        echo" <p> username:  $username </p> ";
-        echo" <p> password: $password </p> ";
-        echo" <p> sesion: $sesusername </p> ";
 
     try {
         $query = "SELECT count(username) FROM users WHERE username = ?";
@@ -36,8 +30,8 @@ session_start();
         var_dump($count);
 
         if ($count['count(username)']>0){
-            echo"usuario existe";
-            //header("Location: login.php?error=usuario_existente");
+            $info="El usuario ya existe. Intenta con otro username";
+            header("Location: signUp.php?info=$info");
             exit();
 
         } else {
@@ -46,13 +40,15 @@ session_start();
             $stmt->execute([$username,$hashed_password,$token]);
 
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            echo"grabado con exito";
+            $info="Usuario grabado ok, inicia sesion";
+            header("Location: login.php?info=$info");
+            
         }
 
         
     } catch (PDOException $e) {
-       // header("Location: login.php?error=error_alta");
-       echo"error excepcion $e";
+        $info="Error al grabar los datos";
+        header("Location: signUp.php?info=$info");
         exit();
 
     }
