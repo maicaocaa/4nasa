@@ -1,10 +1,6 @@
 <?php
 require 'autentication.php';
 
-
-
-
-
 //---------- DATE valida si hay fecha en el formulario sino la inicializa con el dia de hoy
 
     $date = $_GET['date'] ?? date("Y-m-d");
@@ -30,11 +26,9 @@ require 'autentication.php';
 
 //---------- APIS URL ASTRO NECESITA FECHA INICIO Y FIN
 
-    //$api_key="Xxy8xya3iNuhKad9jf7gJLTItZB8gKdaS5iG3b9i";
     $api_key=$_SESSION['token'];
 
     $picture_url="https://api.nasa.gov/planetary/apod?api_key=$api_key&date=$date";
-
     $astro_url="https://api.nasa.gov/neo/rest/v1/feed?start_date=$date&end_date=$date&api_key=$api_key";
 
 
@@ -51,13 +45,10 @@ require 'autentication.php';
     $APOD_url=$data->url;
     $explanation=$data->explanation;
 
-
 // ------------ METEORITOS ----------------------------------
     $astro_response=file_get_contents($astro_url);
     $astro_data=json_decode($astro_response,true);
-    // var_dump($astro_data);
     $astro_near_earth_objects=$astro_data["near_earth_objects"];
-   // var_dump($astro_near_earth_objects);
 
    $total_astro_dangerous=0;
    $details_astro_dangerous="";
@@ -74,18 +65,20 @@ require 'autentication.php';
            $astro_distance=$asteroid["close_approach_data"][0]["miss_distance"]["lunar"];
            
            $details_astro_dangerous .=
-          "<div class='w3-col l4 m6 s12 w3-margin-bottom ' >
-               <div class='w3-card-4 w3-dark-grey'>
-                   <header class='w3-container w3-red'>
-                        <h4>$astro_name</h4>
-                   </header>
-                   <div class='w3-text-white w3-container w3-small' >
-                       <p>Orbita: $astro_orbit</p>
-                       <p>Diametro: $astro_diameter Km</p>
-                       <p>Velocidad: $astro_speed Km/s</p>
-                       <p>Distancia: $astro_distance Lunar</p>
-                   </div>
-               </div>
+          "<div class='w3-row'>
+                <div class='w3-margin-bottom ' >
+                    <div class='w3-card-4 w3-dark-grey'>
+                        <header class='w3-container w3-red'>
+                                <p>$astro_name</p>
+                        </header>
+                        <div class='w3-text-white w3-container' >
+                            <p>Orbita: $astro_orbit</p>
+                            <p>Diametro: $astro_diameter Km</p>
+                            <p>Velocidad: $astro_speed Km/s</p>
+                            <p>Distancia: $astro_distance Lunar</p>
+                        </div>
+                    </div>
+                </div>
            </div>";
        };
    };
@@ -104,52 +97,71 @@ require 'autentication.php';
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-metro.css">
-    <style>
-    body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
-    </style>
-
+    <link rel="stylesheet" href="./styles.css">
 </head>
 
 
-<body class="w3-dark-grey  w3-text-white">
-    
+<body class="w3-black w3-text-white">
+        
     <header class="w3-black  ">
 
-    <span class="w3-text-metro-darken w3-grey">Hola <?php echo "$username Consultas total: $requests Límite por hora: $limit Quedan: $remaining</span>"; ?>
-    <button class="w3-bar-item w3-button w3-right w3-black w3-border w3-border-red"
-                onclick="if (confirm('¿Estás seguro de que quieres desloguearte?')) { window.location.href = 'login.php'; }"> SALIR
-    </button>
-    
-    <div class="w3-bar">
+        <!-- ---------------- USERNAME, HEADERS Y COOKIES--------------- -->
+        <div class="w3-text-light-grey w3-dark-grey" id="top-banner">
+            Hola 
+            <?php echo "$username.   Quedan: $remaining de $limit consultas/hora.  Histórico de consultas: $requests ";?>
+        </div>
+            
+        <div id="navbar" >
 
-        <img class="w3-bar-item" src="img/NASAlogo.png" style="width: 15%;">
-        <p class="title">A PICTURE OF THE DAY - NASA</p>
-        
-                 <!------------------ FORMULARIO DE FECHA--------------- -->
-         <div>
-                <form action="index.php" method="GET" class="form-inline">
-                    <label for="date">Día</label>
-                    <input type="date" name="date" id="date" value="<?php echo $date?>" />
-                    <input class="w3-button w3-black w3-border w3-border-red " type="submit" value="VER FOTO" />
-                </form>
-         </div>
-             
-    
+                
+                <div id="title-logo">
+                    <img class="w3-bar-item" src="img/NASAlogo.png" style="width: 150px;">
+                    <p  class="w3-bar-item">A PICTURE OF THE DAY - NASA</p>
+
+                    <!-- ---------------- FORMULARIO DE FECHA--------------- -->
+                    <div class="form-date">
+                            <form action="index.php" method="GET" class="form-inline">
+                                <input type="date" name="date" id="date" value="<?php echo $date?>" />
+                                <input class="w3-button w3-black w3-border w3-border-red " type="submit" value="VER FOTO" />
+                            </form>
+                    </div>
+                </div>
+                    <!-- ---------------- BOTON SALIR--------------- -->
+
+                <button id="btn-logout"class="w3-bar-item w3-button w3-right w3-black w3-border w3-border-red"
+                        onclick="if (confirm('¿Estás seguro de que quieres desloguearte?')) { window.location.href = 'login.php'; }"> SALIR
+                </button>
+        </div>
     </header>
 
-    <main>
-   <!------------------ IMAGEN O VIDEO--------------- -->
-        <section  class="w3-container w3-black w3-animate-opacity">
-            <article> 
+    <main>        
+                    <!------------------ METEORITOS--------------- -->
+        <aside>
+                    <div class="astro">
+                        <h6>Información meteorítica</h6>
+                        <?php $astro_near_total=count($astro_near_earth_objects);
+                        echo "<p>Meteoritos cercanos: $astro_near_total</p>"; ?>
+
+                        <div class="astro-danger" >
+                            <?php
+                            echo "<p>Meteorítos peligrosos: $total_astro_dangerous</p>"; 
+                            echo "<div class='w3-row-padding w3-margin-top'> $details_astro_dangerous </div>"; 
+                            ?>
+                        </div>
+                    </div>
+
+                  
+        </aside>
+       
+                <!------------------ IMAGEN O VIDEO--------------- -->
+        <section  class="w3-black ">
                 <p class="title"><?php echo "$title / $date" ?></p>
-              
- 
                 <?php
                     if ($data->media_type ==="video"){
-                        echo "<iframe src='$APOD_url'  width='560' height='315' frameborder='0'  allowfullscreen></iframe>";
+                        echo "<iframe src='$APOD_url' tyle= 'width='560px' height='315px' frameborder='0'  allowfullscreen' ></iframe>";
 
                     }else if ($data->media_type ==="image"){
-                        echo "<img style='width:100%' src=$APOD_url class='image'>";
+                        echo "<img src=$APOD_url class='image'>";
                         echo 
                              "<form method=GET action='download.php' target='iframe' >
                              <input name='download' value=$APOD_url hidden>
@@ -158,29 +170,12 @@ require 'autentication.php';
                         echo "<iframe name='iframe' style='display:none'></iframe>";
                     }
                 
-                echo "<p class='explanation'>explanation: $explanation</p>";
+                echo "<p class='explanation'> $explanation</p>";
                 ?> 
-            </article>
         </section>
 
 
-   <!------------------ METEORITOS--------------- -->
-   <aside>
-            <div class="astro">
-                seccion meteorito
-                <?php $astro_near_total=count($astro_near_earth_objects);
-                echo "<p>meteoritos cerca total =$astro_near_total</p>"; ?>
-            </div>
-
-            <div >
-               <h2> Meteoritos peligroso </h2>
-
-                 <?php
-                 echo "<p>meteoritos peligrosos = $total_astro_dangerous;</p>"; 
-                 echo "<div class='w3-row-padding w3-margin-top'> $details_astro_dangerous </div>"; 
-                 ?>
-            </div>
-    </aside>
+    
 
 
     </main>
