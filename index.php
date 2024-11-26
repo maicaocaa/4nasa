@@ -163,7 +163,7 @@ require 'autentication.php';
                     }else if ($data->media_type ==="image"){
                         echo "<img src=$APOD_url class='image'>";
                         echo 
-                             "<form method=GET action='download.php' target='iframe' >
+                             "<form method=GET action='download.php' target='iframe'  onsubmit='alert(\"Imagen en carpeta Downloads\")' >
                              <input name='download' value=$APOD_url hidden>
                              <button type=submit  class='w3-button w3-black w3-border w3-border-red'>DESCARGAR IMAGEN</button>
                              </form>";
