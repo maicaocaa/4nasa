@@ -15,15 +15,12 @@ session_start();
 
 <?php 
 
-echo" este es el login verify  ";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $sesusername= $_SESSION['username'];
 
-    echo" <p> username:  $username </p> ";
-    echo" <p> password: $password </p> ";
-    echo" <p> sesion: $sesusername </p> ";
+
 
 // -------------------- busquea de usuario ---------------
     $query = "SELECT * FROM users WHERE username = ?";
@@ -39,13 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location:index.php");
             exit();
         } else {
-            echo'la contraseña no coincide';
             $info="Error en la contraseña. Intentalo de nuevo";
             header("Location: login.php?info=$info");
             exit();
         }
     }else{
-        $error="El usuario no existe. Intentalo de nuevo";
+        $info="El usuario no existe. Intentalo de nuevo";
         header("Location: login.php?info=$info");
         exit();
     }
