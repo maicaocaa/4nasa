@@ -77,10 +77,21 @@ La puntuación de esta práctica nunca superará los 1.5 puntos. Los 0.5 puntos 
 **Entrega**: ⏰
 Fecha máxima = 13/12/2024
 
-# Capturas del proyecto
+# Instalación
+Para el funcionamiento se precisa tener montada una base de datos con los siguientes datos.
 
-**Login**
+Nombre BD : nasa
+Tabla : users
+usuario: admin
+contraseña: abc123.
 
-**Sing Up**
-
-**Index**
+    CREATE DATABASE nasa;
+    USE nasa;
+    CREATE TABLE users (
+               id INT AUTO_INCREMENT PRIMARY KEY,
+               username VARCHAR(50) NOT NULL UNIQUE,
+               password VARCHAR(255) NOT NULL,
+               token VARCHAR(255)
+           );
+     CREATE USER 'admin'@'localhost' IDENTIFIED BY 'abc123.';
+     GRANT ALL PRIVILEGES ON nasa.* TO 'admin'@'localhost';
