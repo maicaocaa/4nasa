@@ -77,8 +77,9 @@ La puntuación de esta práctica nunca superará los 1.5 puntos. Los 0.5 puntos 
 **Entrega**: ⏰
 Fecha máxima = 13/12/2024
 
-# Instalación
-Para el funcionamiento se precisa tener montada una base de datos con los siguientes datos.
+# Instalación🌠
+
+ - Monta una de datos con XAAMP en local
 
 Nombre BD : nasa
 Tabla : users
@@ -95,3 +96,6 @@ contraseña: abc123.
            );
      CREATE USER 'admin'@'localhost' IDENTIFIED BY 'abc123.';
      GRANT ALL PRIVILEGES ON nasa.* TO 'admin'@'localhost';
+
+  
+ - Añade tu usuario contraseña y token a través de SingUp.php.
